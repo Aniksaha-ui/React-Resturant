@@ -2,6 +2,8 @@ import React,{Component} from 'react'
 import DISHES from '../../data/dishes.js'
 import MenuItem from './Menuitem.js'
 import DishDetail from './DishDetail'
+import {CardColumns, Modal, ModalBody, ModalFooter, Button} from 'reactstrap';
+
 
 
 
@@ -11,13 +13,27 @@ import DishDetail from './DishDetail'
 class Menu extends Component{
     state={
         dishes:DISHES,
-        selected:null
+        selected:null,
+        modalOpen:false
     }
 
     onDishSelect=(dish)=>{
         //console.log(dish);
-        this.setState({selected:dish}); //click korle selected er value null takhe click korar pore oi dish er sob information eikhane rakhe dilam
+        this.setState({selected:dish,
+        modalOpen: !this.state.modalOpen
+        }); //click korle selected er value null takhe click korar pore oi dish er sob information eikhane rakhe dilam
                                         //select Menuitem.js takhe korci
+        
+        
+    }
+
+
+    //Model Khkon open hobe seitar jonno
+
+    toggleModal =()=>{
+        this.setState({
+            modalOpen:!this.state.modalOpen
+        })
     }
 
 
@@ -42,12 +58,18 @@ class Menu extends Component{
         return(
             <div className="container">
                 <div className="row">
-                    <div className="col-6">
-                           {menulist} 
-                    </div>
-                    <div className="col-6">
-                        {dishDetail}
-                    </div>
+                    <CardColumns>
+                        {menulist}
+                    </CardColumns>
+                    <Modal isOpen={this.state.modalOpen} onClick={this.toggleModal}>
+                        <ModalBody>
+                            {dishDetail}
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button onClick={this.toggleModal}  color="secondary">Close</Button>
+                        </ModalFooter>
+                    </Modal>
+
                 </div>
             </div>
         );
